@@ -1,0 +1,1 @@
+export default function MyEventsPage() { return <main className="page"><section className="section"><h1>我的活動</h1><p className="lede">已確認出席後，這裡會顯示完整場地、集合方式與活動當日聯絡資訊。</p><article className="event-card"><h2>即將參加</h2><p>尚未有已確認出席的活動。</p></article></section></main>; }
