@@ -15,5 +15,5 @@ set
 
 insert into public.cover_templates (name, image_url, sort_order)
 values
-  ('朋友加一官方主視覺', '/assets/brand/friend-plus-one.svg', 10)
+  ('朋友加一官方主視覺', '/assets/brand/logo.svg', 10)
 on conflict do nothing;
