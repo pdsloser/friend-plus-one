@@ -1,0 +1,1 @@
+export default function AdminEventsPage() { return <main className="page"><section className="section"><h1>活動審核</h1><p className="lede">只有管理員可以核准、退回修改、下架或取消活動。</p><article className="event-card"><h2>等待審核</h2><p>目前沒有等待審核的活動。</p></article></section></main>; }
