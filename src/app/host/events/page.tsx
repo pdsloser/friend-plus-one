@@ -1,0 +1,2 @@
+const eventStatuses = ["草稿", "等待審核", "退回修改", "已公開", "已額滿", "已截止", "已結束", "已取消"];
+export default function HostEventsPage() { return <main className="page"><section className="section"><h1>我的主辦活動</h1><div className="tabs">{eventStatuses.map((status) => <a href={`/host/events?status=${encodeURIComponent(status)}`} key={status}>{status}</a>)}</div><article className="event-card"><h2>尚未建立活動</h2><p>建立活動後，系統會自動產生六席，第一席固定為主辦人且已確認。</p></article></section></main>; }
