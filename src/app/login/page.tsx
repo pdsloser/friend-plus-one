@@ -1,0 +1,4 @@
+import { requestMagicLink } from "@/lib/auth/actions";
+
+const messages: Record<string, string> = { sent: "登入連結已寄出，請查看信箱。", invalid_email: "請輸入有效的 Email。", send_failed: "寄送失敗，請稍後再試。" };
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string; status?: string }> }) { const { next, status } = await searchParams; return <main className="page"><section className="section"><h1>登入</h1><p className="lede">輸入 Email 後，我們會寄送 Magic Link。第一版不建立密碼。</p>{status && messages[status] ? <p>{messages[status]}</p> : null}<form className="form" action={requestMagicLink}><label htmlFor="email">Email</label><input id="email" name="email" type="email" required /><input name="redirectTo" type="hidden" value={next ?? "/"} /><button className="button" type="submit">寄送登入連結</button></form></section></main>; }
