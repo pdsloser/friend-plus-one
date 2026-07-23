@@ -17,8 +17,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <header className="site-header">
           <Link className="brand-link" href="/">
-            <Image src="/assets/brand/friend-plus-one.svg" alt="朋友加一" width={48} height={36} priority />
-            <span>朋友加一：6人聚</span>
+            <Image
+              className="brand-logo"
+              src="/assets/brand/logo.svg"
+              alt="朋友加一"
+              width={137}
+              height={40}
+              priority
+            />
           </Link>
           <nav aria-label="主要導覽">
             <Link href="/events">活動列表</Link>
@@ -29,7 +35,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {children}
         <footer className="site-footer">
           <span>活動本身不收費，參加者僅需負擔自己的餐飲或咖啡廳低消。</span>
-          <span><Link href="/privacy">隱私權政策</Link><Link href="/terms">使用條款</Link></span>
+          <span>
+            <Link href="/privacy">隱私權政策</Link>
+            <Link href="/terms">使用條款</Link>
+          </span>
         </footer>
       </body>
     </html>
