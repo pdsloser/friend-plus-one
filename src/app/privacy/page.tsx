@@ -1,0 +1,1 @@
+export default function PrivacyPage() { return <main className="page"><section className="section"><h1>隱私權政策</h1><p className="lede">朋友加一只在活動申請、邀請、確認出席與必要通知中使用會員資料。公開頁不顯示 Email、手機、完整地點、社群連結、作品集或申請內容。</p></section></main>; }
