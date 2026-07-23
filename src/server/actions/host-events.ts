@@ -1,9 +1,88 @@
 "use server";
+
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createInvitation } from "@/server/domain/host-workflows";
-const eventSchema = z.object({ title: z.string().min(3), slug: z.string().min(3), hostUserId: z.string().min(1), categoryId: z.string().uuid(), city: z.string().min(1), district: z.string().min(1), startsAt: z.string().min(1), summary: z.string().min(10) });
-export async function createHostEventDraft(formData: FormData) { const parsed = eventSchema.safeParse({ title: formData.get("title"), slug: formData.get("slug"), hostUserId: formData.get("hostUserId"), categoryId: formData.get("categoryId"), city: formData.get("city"), district: formData.get("district"), startsAt: formData.get("startsAt"), summary: formData.get("summary") }); if (!parsed.success) redirect("/host/events/new?status=invalid"); const supabase = await createSupabaseServerClient(); const { error } = await supabase.from("events").insert({ title: parsed.data.title, slug: parsed.data.slug, host_user_id: parsed.data.hostUserId, category_id: parsed.data.categoryId, summary: parsed.data.summary, description: parsed.data.summary, discussion_direction: "主辦人可在送審前補充交流方向。", suitable_for: "對本場主題有興趣的人。", cover_source: "custom_upload", cover_image_url: "/assets/brand/friend-plus-one.svg", starts_at: new Date(parsed.data.startsAt).toISOString(), ends_at: new Date(new Date(parsed.data.startsAt).getTime() + 2 * 60 * 60 * 1000).toISOString(), city: parsed.data.city, district: parsed.data.district, publication_status: "draft" }); if (error) redirect("/host/events/new?status=failed"); revalidatePath("/host/events"); redirect("/host/events?status=draft_created"); }
-export async function sendHostInvitation(formData: FormData) { const invitation = createInvitation({ eventId: String(formData.get("eventId") ?? ""), seatId: String(formData.get("seatId") ?? ""), inviteType: "direct", email: String(formData.get("email") ?? ""), invitedBy: String(formData.get("hostUserId") ?? ""), rawToken: crypto.randomUUID() }); const supabase = await createSupabaseServerClient(); await supabase.from("invitations").insert({ event_id: invitation.eventId, seat_id: invitation.seatId, invite_type: invitation.inviteType, email_normalized: invitation.emailNormalized, token_hash: invitation.tokenHash, invited_by: invitation.invitedBy, expires_at: invitation.expiresAt }); revalidatePath("/host"); }
+
+const eventSchema = z.object({
+  title: z.string().min(3),
+  slug: z.string().min(3),
+  hostUserId: z.string().min(1),
+  categoryId: z.string().uuid(),
+  city: z.string().min(1),
+  district: z.string().min(1),
+  startsAt: z.string().min(1),
+  summary: z.string().min(10),
+});
+
+export async function createHostEventDraft(formData: FormData) {
+  const parsed = eventSchema.safeParse({
+    title: formData.get("title"),
+    slug: formData.get("slug"),
+    hostUserId: formData.get("hostUserId"),
+    categoryId: formData.get("categoryId"),
+    city: formData.get("city"),
+    district: formData.get("district"),
+    startsAt: formData.get("startsAt"),
+    summary: formData.get("summary"),
+  });
+
+  if (!parsed.success) {
+    redirect("/host/events/new?status=invalid");
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.from("events").insert({
+    title: parsed.data.title,
+    slug: parsed.data.slug,
+    host_user_id: parsed.data.hostUserId,
+    category_id: parsed.data.categoryId,
+    summary: parsed.data.summary,
+    description: parsed.data.summary,
+    discussion_direction: "主辦人可在送審前補充交流方向。",
+    suitable_for: "對本場主題有興趣的人。",
+    cover_source: "custom_upload",
+    cover_image_url: "/assets/brand/logo.svg",
+    starts_at: new Date(parsed.data.startsAt).toISOString(),
+    ends_at: new Date(
+      new Date(parsed.data.startsAt).getTime() + 2 * 60 * 60 * 1000,
+    ).toISOString(),
+    city: parsed.data.city,
+    district: parsed.data.district,
+    publication_status: "draft",
+  });
+
+  if (error) {
+    redirect("/host/events/new?status=failed");
+  }
+
+  revalidatePath("/host/events");
+  redirect("/host/events?status=draft_created");
+}
+
+export async function sendHostInvitation(formData: FormData) {
+  const rawToken = crypto.randomUUID();
+  const invitation = createInvitation({
+    eventId: String(formData.get("eventId") ?? ""),
+    seatId: String(formData.get("seatId") ?? ""),
+    inviteType: "direct",
+    email: String(formData.get("email") ?? ""),
+    invitedBy: String(formData.get("hostUserId") ?? ""),
+    rawToken,
+  });
+  const supabase = await createSupabaseServerClient();
+  await supabase.from("invitations").insert({
+    event_id: invitation.eventId,
+    seat_id: invitation.seatId,
+    invite_type: invitation.inviteType,
+    email_normalized: invitation.emailNormalized,
+    token_hash: invitation.tokenHash,
+    invited_by: invitation.invitedBy,
+    expires_at: invitation.expiresAt,
+  });
+
+  revalidatePath("/host");
+}
