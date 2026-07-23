@@ -1,0 +1,1 @@
+export default function AdminHostsPage() { return <main className="page"><section className="section"><h1>主辦人授權</h1><form className="form"><label htmlFor="email">主辦人 Email</label><input id="email" name="email" type="email" required /><button className="button" type="submit">開通主辦人</button></form></section></main>; }
