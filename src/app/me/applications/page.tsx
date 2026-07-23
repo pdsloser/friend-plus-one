@@ -1,0 +1,2 @@
+const applicationGroups = ["處理中", "已錄取", "候補", "未錄取", "已撤回", "已取消", "已完成"];
+export default function MyApplicationsPage() { return <main className="page"><section className="section"><h1>我的申請</h1><p className="lede">申請在主辦人開始審核前可以撤回；錄取後需在三天內確認。</p><div className="event-grid">{applicationGroups.map((group) => <article className="event-card" key={group}><h2>{group}</h2><p>目前沒有符合此狀態的申請。</p></article>)}</div></section></main>; }
