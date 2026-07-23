@@ -1,0 +1,1 @@
+export default function TermsPage() { return <main className="page"><section className="section"><h1>使用條款</h1><p className="lede">參加者需使用本人 Email 登入與確認邀請。邀請不可轉讓，活動席位固定六人，請尊重主辦人與其他參加者的隱私。</p></section></main>; }
