@@ -1,0 +1,1 @@
+export default function AboutPage() { return <main className="page"><section className="section"><h1>朋友加一是什麼</h1><p className="lede">朋友加一是固定六人的小型主題交流活動。每場由一位主辦人親自參與，其餘五席依主題安排邀請、公開申請或保留席。</p><h2>為什麼固定六人</h2><p>六個人讓每個人都有足夠空間說話，也不會像大型活動一樣需要主動破冰。</p><h2>邀請制與公開申請</h2><p>活動以邀請制為主，並視場次開放少量申請名額。公開申請採主辦人審核制。</p><h2>隱私說明</h2><p>完整地點、聯絡方式、申請內容與社群作品集不會出現在公開頁。</p></section></main>; }
