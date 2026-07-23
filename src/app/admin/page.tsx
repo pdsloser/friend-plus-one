@@ -1,0 +1,3 @@
+import Link from "next/link";
+const adminSections = [{ href: "/admin/events", label: "活動審核" }, { href: "/admin/hosts", label: "主辦人授權" }, { href: "/admin/users", label: "使用者" }, { href: "/admin/categories", label: "主要分類" }, { href: "/admin/templates", label: "官方封面模板" }, { href: "/admin/email-logs", label: "Email 紀錄" }, { href: "/admin/audit-logs", label: "Audit logs" }];
+export default function AdminDashboardPage() { return <main className="page"><section className="section"><h1>管理員後台</h1><p className="lede">管理員負責活動審核、主辦人授權、分類、模板、使用者與重要操作紀錄。</p><div className="event-grid">{adminSections.map((section) => <Link className="event-card" href={section.href} key={section.href}><h2>{section.label}</h2><p>查看與管理</p></Link>)}</div></section></main>; }
